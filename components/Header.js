@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Ensure component is mounted before rendering theme toggle
   useEffect(() => {
@@ -53,6 +54,7 @@ export default function Header() {
                 type="button"
                 className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                 aria-label="Open menu"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
                 <svg
                   className="w-6 h-6"
@@ -64,7 +66,11 @@ export default function Header() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
+                    d={
+                      mobileMenuOpen
+                        ? "M6 18L18 6M6 6l12 12"
+                        : "M4 6h16M4 12h16M4 18h16"
+                    }
                   />
                 </svg>
               </button>
@@ -104,28 +110,33 @@ export default function Header() {
         </div>
 
         {/* Mobile Navigation Menu */}
-        <div className="pb-4 md:hidden">
-          <div className="flex flex-col space-y-2">
-            <Link
-              href="/about"
-              className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
-            >
-              About
-            </Link>
-            <Link
-              href="/blog"
-              className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
-            >
-              Blog
-            </Link>
-            <Link
-              href="/projects"
-              className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
-            >
-              Projects
-            </Link>
+        {mobileMenuOpen && (
+          <div className="pb-4 md:hidden">
+            <div className="flex flex-col space-y-2">
+              <Link
+                href="/about"
+                className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/blog"
+                className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Blog
+              </Link>
+              <Link
+                href="/projects"
+                className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Projects
+              </Link>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );
