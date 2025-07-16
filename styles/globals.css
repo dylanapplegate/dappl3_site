@@ -98,6 +98,33 @@
     @apply bg-transparent text-gray-100 p-0 text-sm;
   }
 
+  /* Enhanced syntax highlighting styles for highlight.js with Dracula theme */
+  .prose pre {
+    @apply rounded-lg overflow-x-auto mt-6 border border-gray-200 dark:border-gray-700;
+    background: #282a36;
+    color: #f8f8f2;
+    padding: 1rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+    background: transparent !important;
+    color: #f8f8f2;
+    font-family: "Fira Code", "Monaco", "Cascadia Code", "Roboto Mono", Consolas,
+      "Courier New", monospace;
+  }
+
+  /* Ensure proper spacing for code blocks */
+  .prose pre + p,
+  .prose pre + h1,
+  .prose pre + h2,
+  .prose pre + h3,
+  .prose pre + h4 {
+    @apply mt-6;
+  }
+
   .prose blockquote {
     @apply border-l-4 border-pink-500 bg-gray-50 dark:bg-gray-800 pl-4 py-3 text-gray-700 dark:text-gray-300 italic mt-6;
   }
@@ -183,4 +210,171 @@
   .prose ol > li::marker {
     @apply text-gray-400 dark:text-gray-500;
   }
+}
+
+/* Dracula Theme for highlight.js */
+.hljs {
+  color: #f8f8f2;
+  background: #282a36;
+}
+
+.hljs::selection,
+.hljs ::selection {
+  background-color: #44475a;
+  color: #f8f8f2;
+}
+
+.hljs-comment {
+  color: #6272a4;
+}
+
+.hljs-tag,
+.hljs-operator,
+.hljs-subst,
+.hljs-punctuation,
+.hljs-operator {
+  color: #f8f8f2;
+}
+
+.hljs-operator,
+.hljs-punctuation {
+  color: #f8f8f2;
+}
+
+.hljs-tag,
+.hljs-tag .hljs-name,
+.hljs-tag .hljs-attr {
+  color: #ff79c6;
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-alias,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #50fa7b;
+}
+
+.hljs-string,
+.hljs-doctag,
+.hljs-addition,
+.hljs-inserted {
+  color: #f1fa8c;
+}
+
+.hljs-deletion,
+.hljs-deleted {
+  color: #ff5555;
+}
+
+.hljs-number,
+.hljs-regexp,
+.hljs-literal,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #bd93f9;
+}
+
+.hljs-meta,
+.hljs-meta-keyword {
+  color: #ff79c6;
+}
+
+.hljs-meta-string {
+  color: #f1fa8c;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-title,
+.hljs-section,
+.hljs-name,
+.hljs-strong {
+  color: #ff79c6;
+}
+
+.hljs-emphasis {
+  color: #ff79c6;
+  font-style: italic;
+}
+
+.hljs-attr {
+  color: #50fa7b;
+}
+
+.hljs-attribute {
+  color: #50fa7b;
+}
+
+.hljs-class .hljs-title,
+.hljs-title.class_ {
+  color: #8be9fd;
+}
+
+.hljs-title.function_,
+.hljs-function .hljs-title {
+  color: #50fa7b;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-code {
+  color: #8be9fd;
+}
+
+.hljs-params {
+  color: #f8f8f2;
+}
+
+.hljs-formula {
+  color: #50fa7b;
+}
+
+.hljs-property {
+  color: #66d9ef;
+}
+
+.hljs-quote {
+  color: #6272a4;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-formula {
+  color: #50fa7b;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #ff79c6;
+}
+
+.hljs-literal {
+  color: #bd93f9;
+}
+
+.hljs-addition {
+  color: #50fa7b;
+}
+
+/* Enhanced code block styling with Dracula theme */
+.prose pre.hljs {
+  @apply rounded-lg overflow-x-auto mt-6 border;
+  background: #282a36 !important;
+  border-color: #44475a;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+.prose pre code.hljs {
+  @apply bg-transparent p-0;
+  background: transparent !important;
+  color: #f8f8f2;
+  font-family: "Fira Code", "Monaco", "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
 }
