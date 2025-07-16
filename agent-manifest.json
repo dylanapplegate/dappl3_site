@@ -1,0 +1,30 @@
+{
+  "projectName": "Next.js Static Blog/Portfolio Starter",
+  "framework": "Next.js",
+  "styling": "Tailwind CSS",
+  "contentSource": {
+    "type": "Markdown with Frontmatter",
+    "directory": "/content",
+    "parsingLibrary": ["gray-matter", "remark", "remark-html"]
+  },
+  "renderingStrategy": "Static Site Generation (SSG) with getStaticProps/getStaticPaths",
+  "routes": {
+    "/": "Homepage",
+    "/about": "About page from /content/about.md",
+    "/blog": "Index page listing all blog posts",
+    "/blog/[slug]": "Individual blog post from /content/blog/[slug].md",
+    "/projects": "Index page listing all projects",
+    "/projects/[slug]": "Individual project from /content/projects/[slug].md"
+  },
+  "features": {
+    "theming": "Light/dark mode with next-themes",
+    "seo": "Built-in SEO with meta tags and structured data",
+    "responsive": "Mobile-first responsive design",
+    "typography": "Inter + Lora font pairing"
+  },
+  "deployment": {
+    "type": "Static Export",
+    "buildCommand": "npm run build",
+    "outputDirectory": "out"
+  }
+}
