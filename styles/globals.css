@@ -15,6 +15,99 @@
   h6 {
     font-family: "Syne", system-ui, sans-serif;
   }
+
+  /* Ensure dark mode variables are available */
+  :root {
+    --color-scheme: light;
+    --bg-primary: #ffffff;
+    --bg-secondary: #ffffff;
+    --text-primary: #111827;
+    --text-secondary: #374151;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --border-hover: #f97316;
+  }
+
+  .dark {
+    --color-scheme: dark;
+    --bg-primary: #111827;
+    --bg-secondary: #1f2937;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --border-color: #374151;
+    --border-hover: #f97316;
+  }
+
+  /* Apply these variables to key elements */
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.2s, color 0.2s;
+  }
+
+  /* Force override all Tailwind dark mode utilities */
+  .bg-white,
+  .dark .bg-white {
+    background-color: var(--bg-primary) !important;
+  }
+
+  .bg-gray-900,
+  .dark .bg-gray-900 {
+    background-color: var(--bg-primary) !important;
+  }
+
+  .text-gray-900,
+  .dark .text-gray-900 {
+    color: var(--text-primary) !important;
+  }
+
+  .text-gray-100,
+  .dark .text-gray-100 {
+    color: var(--text-primary) !important;
+  }
+
+  .text-gray-700,
+  .dark .text-gray-700 {
+    color: var(--text-secondary) !important;
+  }
+
+  .text-gray-300,
+  .dark .text-gray-300 {
+    color: var(--text-secondary) !important;
+  }
+
+  .border-gray-200,
+  .dark .border-gray-200 {
+    border-color: var(--border-color) !important;
+  }
+
+  .border-gray-700,
+  .dark .border-gray-700 {
+    border-color: var(--border-color) !important;
+  }
+
+  /* Specifically target the main layout div */
+  [class*="min-h-screen"] {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* Target header elements */
+  header {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* Ensure all text elements inherit the correct colors */
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    color: inherit;
+  }
+
+  /* Override any remaining Tailwind classes */
+  .dark * {
+    border-color: var(--border-color) !important;
+  }
 }
 
 /* Custom utilities */
@@ -29,6 +122,15 @@
 
   .link {
     @apply text-pink-500 hover:text-purple-500 dark:text-pink-400 dark:hover:text-purple-400 transition-colors duration-200;
+  }
+
+  /* Force dark mode utilities to ensure they work */
+  .dark-mode-test {
+    @apply bg-white text-gray-900;
+  }
+
+  .dark .dark-mode-test {
+    @apply bg-gray-900 text-gray-100;
   }
 }
 

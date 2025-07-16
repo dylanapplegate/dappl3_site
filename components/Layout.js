@@ -28,7 +28,7 @@ export default function Layout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="min-h-screen text-gray-900 transition-colors duration-200 bg-white dark:bg-gray-900 dark:text-gray-100">
+      <div className="min-h-screen bg-white text-gray-900 transition-colors duration-200 dark:bg-gray-900 dark:text-gray-100">
         <Header />
 
         <main className="container max-w-4xl px-4 py-8 mx-auto">
