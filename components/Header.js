@@ -20,7 +20,7 @@ export default function Header() {
             href="/"
             className="text-xl font-bold text-gray-900 transition-colors dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
           >
-            Dev Portfolio
+            dappl3
           </Link>
 
           {/* Navigation */}
