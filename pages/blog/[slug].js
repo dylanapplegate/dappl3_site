@@ -61,7 +61,7 @@ export default function BlogPost({ post }) {
         </header>
 
         <div
-          className="prose prose-lg dark:prose-dark max-w-none"
+          className="prose prose-lg max-w-none"
           dangerouslySetInnerHTML={{ __html: post.contentHtml }}
         />
       </article>

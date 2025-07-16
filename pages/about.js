@@ -11,7 +11,7 @@ export default function About({ content, title, description }) {
       }
     >
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold font-serif text-gray-900 dark:text-white mb-8">
+        <h1 className="mb-8 text-4xl font-bold text-gray-900 md:text-5xl dark:text-white">
           {title || "About Me"}
         </h1>
 

@@ -72,7 +72,7 @@ export default function ProjectPage({ project }) {
         </header>
 
         <div
-          className="prose prose-lg dark:prose-dark max-w-none"
+          className="prose prose-lg max-w-none"
           dangerouslySetInnerHTML={{ __html: project.contentHtml }}
         />
       </article>
