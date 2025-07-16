@@ -34,12 +34,11 @@
 
 @layer components {
   .prose {
-    @apply text-gray-900 dark:text-gray-100 leading-relaxed;
+    @apply text-gray-900 dark:text-gray-100 leading-relaxed text-base;
     font-size: 1rem;
-    line-height: 1.75;
+    @apply leading-relaxed;
     max-width: none;
   }
-
   /*
     The general .prose > * + * selector has been removed.
     Margins are now applied explicitly to each element for better control.
@@ -116,13 +115,14 @@
     @apply list-decimal;
   }
 
-  .prose ul ul,
-  .prose ol ol {
+  .prose ul ul {
     @apply mt-2;
     list-style-type: circle;
   }
 
   .prose ol ol {
+    /* Nested ordered lists use lower-alpha for list-style-type for improved readability.
+       This is an intentional design choice. */
     list-style-type: lower-alpha;
   }
 
