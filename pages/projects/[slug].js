@@ -6,7 +6,7 @@ export default function ProjectPage({ project }) {
     return (
       <Layout title="Project Not Found">
         <div className="text-center py-12">
-          <h1 className="text-4xl font-bold font-serif text-gray-900 dark:text-white mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Project Not Found
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -21,7 +21,7 @@ export default function ProjectPage({ project }) {
     <Layout title={project.title} description={project.excerpt}>
       <article className="max-w-4xl mx-auto">
         <header className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold font-serif text-gray-900 dark:text-white mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             {project.title}
           </h1>
 

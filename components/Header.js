@@ -12,34 +12,34 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700 backdrop-blur-sm bg-opacity-90 dark:bg-opacity-90">
+      <div className="container max-w-4xl px-4 mx-auto">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Title */}
           <Link
             href="/"
-            className="text-xl font-bold font-serif text-gray-900 dark:text-white hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
+            className="text-xl font-bold text-gray-900 transition-colors dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
           >
             Dev Portfolio
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="items-center hidden space-x-8 md:flex">
             <Link
               href="/about"
-              className="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
+              className="text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
             >
               About
             </Link>
             <Link
               href="/blog"
-              className="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
+              className="text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
             >
               Blog
             </Link>
             <Link
               href="/projects"
-              className="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
+              className="text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
             >
               Projects
             </Link>
@@ -55,7 +55,7 @@ export default function Header() {
                 aria-label="Open menu"
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -74,7 +74,7 @@ export default function Header() {
             {mounted && (
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="p-2 text-gray-700 transition-colors bg-gray-100 rounded-lg dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
                 aria-label="Toggle theme"
               >
                 {theme === "dark" ? (
@@ -104,23 +104,23 @@ export default function Header() {
         </div>
 
         {/* Mobile Navigation Menu */}
-        <div className="md:hidden pb-4">
+        <div className="pb-4 md:hidden">
           <div className="flex flex-col space-y-2">
             <Link
               href="/about"
-              className="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors py-2"
+              className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
             >
               About
             </Link>
             <Link
               href="/blog"
-              className="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors py-2"
+              className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
             >
               Blog
             </Link>
             <Link
               href="/projects"
-              className="text-gray-700 dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400 transition-colors py-2"
+              className="py-2 text-gray-700 transition-colors dark:text-gray-300 hover:text-pink-500 dark:hover:text-pink-400"
             >
               Projects
             </Link>

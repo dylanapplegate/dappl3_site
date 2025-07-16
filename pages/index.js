@@ -10,7 +10,7 @@ export default function Home({ posts, projects }) {
     >
       {/* Hero Section */}
       <section className="mb-16 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold font-serif text-gray-900 dark:text-white mb-6">
+        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6">
           Welcome to My
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">
             {" "}
@@ -34,7 +34,7 @@ export default function Home({ posts, projects }) {
       {/* Featured Posts */}
       <section className="mb-16">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
             Latest Posts
           </h2>
           <Link href="/blog" className="link font-medium">
@@ -58,7 +58,7 @@ export default function Home({ posts, projects }) {
                     })}
                   </time>
                 </div>
-                <h3 className="text-xl font-semibold font-serif text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   <Link
                     href={`/blog/${post.slug}`}
                     className="hover:text-pink-500 dark:hover:text-pink-400 transition-colors"
@@ -82,7 +82,7 @@ export default function Home({ posts, projects }) {
       {/* Featured Projects */}
       <section>
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold font-serif text-gray-900 dark:text-white">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
             Featured Projects
           </h2>
           <Link href="/projects" className="link font-medium">
@@ -97,7 +97,7 @@ export default function Home({ posts, projects }) {
                 key={project.slug}
                 className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow duration-200"
               >
-                <h3 className="text-xl font-semibold font-serif text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                   <Link
                     href={`/projects/${project.slug}`}
                     className="hover:text-pink-500 dark:hover:text-pink-400 transition-colors"

@@ -28,10 +28,10 @@ export default function Layout({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+      <div className="min-h-screen text-gray-900 transition-colors duration-200 bg-white dark:bg-gray-900 dark:text-gray-100">
         <Header />
 
-        <main className="container mx-auto px-4 py-8 max-w-4xl">
+        <main className="container max-w-4xl px-4 py-8 mx-auto">
           {children}
         </main>
 
