@@ -101,8 +101,6 @@ demo: "https://demo-url.com" # Optional
 
 ## Dark Mode Guidelines
 
-## Dark Mode Guidelines
-
 - All UI components must include Tailwind's `dark:` variant styles for backgrounds, text, borders, and interactive states.
 - Components should be tested in both light and dark themes before PR approval.
 - Any new component or layout must default to theme-aware color tokens and utility classes.
@@ -111,6 +109,22 @@ demo: "https://demo-url.com" # Optional
 - Do not remove existing light mode styles when adding dark mode support.
 - Avoid adding Tailwind classes without considering theme parity and accessibility.
 - Do not break responsiveness while applying theme updates.
+
+**Example pattern for new components:**
+
+```jsx
+// Before (light only)
+<div className="bg-white text-gray-900 shadow-md">
+  <button className="bg-gray-100 hover:bg-gray-200">Click me</button>
+</div>
+
+// After (dark mode added)
+<div className="bg-white text-gray-900 dark:bg-gray-800 dark:text-gray-100 shadow-md">
+  <button className="bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300">
+    Click me
+  </button>
+</div>
+```
 
 ## Development Workflows
 
