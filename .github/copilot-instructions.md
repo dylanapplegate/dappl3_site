@@ -163,4 +163,3 @@ npm run test:e2e              # Playwright link checker
 2. Test new content routes work correctly
 3. Run `npm run test:e2e` to check for broken links
 4. Verify dark/light theme switching works
-
