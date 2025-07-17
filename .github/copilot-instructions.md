@@ -9,6 +9,26 @@ This is a **static-first Next.js blog** using Pages Router + SSG, designed for d
 - **Presentation Layer**: React components in `/components/` + pages in `/pages/`
 - **Build Output**: Static files via `output: "export"` in `next.config.mjs`
 
+## MCP Servers and Usage
+
+The following MCP servers are available for integration and usage within the project:
+
+- **GitHub**: Use for version control and repository management.
+- **DeepWiki**: Use for storing and retrieving contextual information related to the project.
+- **Sequential Thinking**: Use for breaking down complex tasks into smaller, manageable steps.
+- **Memory**: Use for storing and retrieving contextual information during development.
+- **Playwright**: Use for end-to-end testing workflows, including link checking and page crawling.
+- **Context7**: Use for accessing up-to-date, version-specific documentation and resources.
+
+### When to Use MCP Servers
+
+- **GitHub**: Always use for managing code changes and collaborating with team members.
+- **DeepWiki**: Use when detailed contextual documentation is required for specific components or workflows.
+- **Sequential Thinking**: Use when planning or debugging complex features or workflows.
+- **Memory**: Use for recalling previous decisions or configurations during development.
+- **Playwright**: Use during testing phases to ensure all pages are functional and links are valid.
+- **Context7**: Use when referencing documentation or resolving version-specific issues.
+
 ## Critical Content Processing Pipeline
 
 The `/lib/markdown.js` file is the content engine - all content flows through these functions:
