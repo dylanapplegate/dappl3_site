@@ -1,49 +1,50 @@
-# Copilot Instructions for Next.js Blog & Portfolio Starter
+# Copilot Instructions for Next.js Static Blog & Portfolio
 
 ## Architecture Overview
 
-This is a **static-first Next.js blog** using Pages Router + SSG, designed for deployment to static hosts like GitHub Pages. The architecture follows a content-driven approach:
+This is a **static-first Next.js blog** using Pages Router + SSG, designed for deployment to static hosts. The architecture follows a content-driven approach:
 
 - **Content Layer**: Markdown files in `/content/` (blog posts, projects, about page)
-- **Processing Layer**: `/lib/markdown.js` handles all content parsing with gray-matter + remark
+- **Processing Layer**: `/lib/markdown.js` handles all content parsing with gray-matter + remark + rehype
 - **Presentation Layer**: React components in `/components/` + pages in `/pages/`
 - **Build Output**: Static files via `output: "export"` in `next.config.mjs`
 
-## Critical File Dependencies
+## Critical Content Processing Pipeline
 
-### Content Processing Pipeline
+The `/lib/markdown.js` file is the content engine - all content flows through these functions:
 
 ```javascript
-// /lib/markdown.js - Core content utilities
-getAllSlugs(contentType) → getStaticPaths()
-getContentBySlug(contentType, slug) → getStaticProps()
-getAllContent(contentType) → index pages
-getStaticContent(filename) → static pages like /about
+getAllSlugs(contentType) → getStaticPaths()        // Discovers .md files
+getContentBySlug(contentType, slug) → getStaticProps() // Parses individual files
+getAllContent(contentType) → index pages           // Gets sorted content lists
+getStaticContent(filename) → static pages          // For about.md etc.
 ```
 
-### SSG Implementation Pattern
+**Key insight**: Content is processed with `remark` → `remarkRehype` → `rehypeHighlight` → `rehypeStringify` for syntax highlighting.
 
-All dynamic routes use this exact pattern:
+## SSG Implementation Pattern
+
+**Every dynamic route** must use this exact pattern:
 
 ```javascript
-// pages/[contentType]/[slug].js
+// pages/blog/[slug].js & pages/projects/[slug].js
 export async function getStaticPaths() {
-  const slugs = getAllSlugs("blog"); // or 'projects'
+  const slugs = getAllSlugs("blog"); // or "projects"
   return {
     paths: slugs.map((slug) => ({ params: { slug } })),
-    fallback: false,
+    fallback: false, // CRITICAL: false for static export
   };
 }
 
 export async function getStaticProps({ params }) {
   const content = await getContentBySlug("blog", params.slug);
-  return { props: { [contentType]: content } };
+  return { props: { post: content } }; // or { project: content }
 }
 ```
 
-## Content Frontmatter Schema
+## Content Schema Requirements
 
-**Required fields for all content:**
+**All content** requires these frontmatter fields:
 
 ```yaml
 ---
@@ -53,94 +54,85 @@ excerpt: "String"
 ---
 ```
 
-**Additional for projects:**
+**Projects** additionally require:
 
 ```yaml
 tags: ["Array", "Of", "Strings"]
-github: "https://github.com/..."
-demo: "https://demo-url.com"
+github: "https://github.com/..." # Optional
+demo: "https://demo-url.com" # Optional
 ```
 
-## Styling System (Tailwind v4)
+## Styling System (Tailwind CSS)
 
-**Critical CSS import order** (must be exact):
+**Critical CSS import order** in `styles/globals.css`:
 
 ```css
-/* styles/globals.css */
-@import url("https://fonts.googleapis.com/..."); /* Google Fonts FIRST */
-@import "tailwindcss"; /* Tailwind SECOND */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
 ```
 
-**Typography hierarchy:**
+**Typography hierarchy**:
 
-- Body text: `Inter` (applied via CSS `font-family`)
-- Headings: `Lora` serif (applied to h1-h6 in CSS)
-- Custom utilities: `.btn-primary`, `.btn-secondary`, `.link`
+- Body text: `Inter` (via CSS `font-family`)
+- Headings: `Syne` (via CSS h1-h6 selectors)
+- Content: `@tailwindcss/typography` for markdown rendering
+
+**Theme system**: Uses `next-themes` with `darkMode: "class"` and CSS custom properties for consistent theming.
 
 ## Development Workflows
 
-### Adding New Content
+### Adding Content
 
 ```bash
-# Blog post: creates /blog/filename route
-touch content/blog/filename.md
+# Creates /blog/new-post route automatically
+echo "---\ntitle: \"New Post\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\n---\n\nContent here..." > content/blog/new-post.md
 
-# Project: creates /projects/filename route
-touch content/projects/filename.md
-
-# Both auto-discovered by getAllSlugs() at build time
+# Creates /projects/new-project route automatically
+echo "---\ntitle: \"New Project\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\ntags: [\"React\"]\n---\n\nContent here..." > content/projects/new-project.md
 ```
 
-### Build & Deploy
+### Build & Test
 
 ```bash
-npm run build  # Creates /out directory with static files
-# Deploy /out to any static host (GitHub Pages, Netlify, Vercel)
+npm run dev --turbopack        # Development with Turbopack
+npm run build                  # Static export to /out
+npm run test:e2e              # Playwright link checker
 ```
 
-## Component Patterns
+**Testing**: Includes comprehensive Playwright E2E tests that crawl all pages and check for broken links.
 
-### Layout System
+## Component Architecture
 
-- `Layout.js` - Universal wrapper with SEO meta tags
-- `Header.js` - Navigation + theme toggle (uses next-themes)
-- `Footer.js` - Social links + copyright
-
-### SEO Implementation
-
-All pages use Layout component with props:
+**Layout Pattern**: All pages wrap content in `Layout` component:
 
 ```jsx
-<Layout title="Page Title" description="Page description" type="article">
+<Layout title="Page Title" description="SEO description" type="article">
+  {/* content */}
+</Layout>
 ```
 
-Blog posts automatically include JSON-LD structured data.
+**SEO**: Layout automatically handles meta tags, Open Graph, and JSON-LD structured data for blog posts.
 
-## Key Constraints
+## Static Export Constraints
 
-- **No API routes** (static export doesn't support them)
-- **No next/image optimization** (`unoptimized: true` in config)
+- **No API routes** (unsupported by static export)
+- **No `next/image` optimization** (`unoptimized: true` required)
 - **No server-side features** (middleware, ISR, etc.)
-- **Markdown only** for content (no CMS integration)
+- **Markdown-only content** (no CMS dependencies)
 
-## Theme System
+## Key Files to Understand
 
-Uses `next-themes` with class-based dark mode:
+- `/lib/markdown.js` - Content processing engine
+- `/pages/blog/[slug].js` - Dynamic route template
+- `/components/Layout.js` - SEO and theme wrapper
+- `/styles/globals.css` - Theme system and typography
+- `/next.config.mjs` - Static export configuration
 
-When modifying this codebase:
+## Verification Requirements
 
-1. Content changes only require adding/editing markdown files
-2. Styling uses Tailwind utilities - avoid custom CSS
-3. All routes are static - use getStaticProps/getStaticPaths pattern
-4. Test build output with `npm run build` before deployment
-5. If decisions are made during chat that impact architecture, workflows, or conventions, update both `.github/copilot-instructions.md` and `README.md` to reflect those changes.
+**Always test locally before deployment:**
 
-## Verification Requirement
-
-**Always verify completed work before considering any task done.**
-This means:
-
-- Test all changes locally (e.g., run `npm run build` and check output)
-- Confirm that new/modified features work as intended
-- Ensure no regressions or broken functionality
-- Only mark a task as complete after successful verification
+1. Run `npm run build` and verify `/out` directory
+2. Test new content routes work correctly
+3. Run `npm run test:e2e` to check for broken links
+4. Verify dark/light theme switching works
