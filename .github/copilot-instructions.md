@@ -99,6 +99,13 @@ demo: "https://demo-url.com" # Optional
 
 **Theme system**: Uses `next-themes` with `darkMode: "class"` and CSS custom properties for consistent theming.
 
+## Dark Mode Guidelines
+
+- All components must use Tailwind's `dark:` variants to support dark theme.
+- Ensure high contrast and readability across both themes.
+- Interactive states (hover, focus, active) must be styled for both light and dark modes.
+- Before merging, preview all components in both modes.
+
 ## Development Workflows
 
 ### Adding Content
@@ -156,3 +163,4 @@ npm run test:e2e              # Playwright link checker
 2. Test new content routes work correctly
 3. Run `npm run test:e2e` to check for broken links
 4. Verify dark/light theme switching works
+
