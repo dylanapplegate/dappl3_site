@@ -12,7 +12,7 @@ export default function Header() {
           {/* Logo/Title */}
           <Link
             href="/"
-            className="flex items-center space-x-2 text-xl font-bold text-gray-900 transition-colors dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
+            className="flex items-center space-x-1 text-xl font-bold text-gray-900 transition-colors dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
           >
             <svg
               viewBox="0 0 24 24"
