@@ -134,3 +134,13 @@ When modifying this codebase:
 3. All routes are static - use getStaticProps/getStaticPaths pattern
 4. Test build output with `npm run build` before deployment
 5. If decisions are made during chat that impact architecture, workflows, or conventions, update both `.github/copilot-instructions.md` and `README.md` to reflect those changes.
+
+## Verification Requirement
+
+**Always verify completed work before considering any task done.**
+This means:
+
+- Test all changes locally (e.g., run `npm run build` and check output)
+- Confirm that new/modified features work as intended
+- Ensure no regressions or broken functionality
+- Only mark a task as complete after successful verification
