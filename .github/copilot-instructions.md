@@ -101,10 +101,16 @@ demo: "https://demo-url.com" # Optional
 
 ## Dark Mode Guidelines
 
-- All components must use Tailwind's `dark:` variants to support dark theme.
-- Ensure high contrast and readability across both themes.
+## Dark Mode Guidelines
+
+- All UI components must include Tailwind's `dark:` variant styles for backgrounds, text, borders, and interactive states.
+- Components should be tested in both light and dark themes before PR approval.
+- Any new component or layout must default to theme-aware color tokens and utility classes.
 - Interactive states (hover, focus, active) must be styled for both light and dark modes.
-- Before merging, preview all components in both modes.
+- Do not use custom CSS unless absolutely necessary; prefer Tailwind utilities.
+- Do not remove existing light mode styles when adding dark mode support.
+- Avoid adding Tailwind classes without considering theme parity and accessibility.
+- Do not break responsiveness while applying theme updates.
 
 ## Development Workflows
 
