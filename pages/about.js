@@ -11,10 +11,6 @@ export default function About({ content, title, description }) {
       }
     >
       <div className="max-w-3xl mx-auto">
-        <h1 className="mb-8 text-4xl font-bold text-gray-900 md:text-5xl dark:text-white">
-          {title || "About Me"}
-        </h1>
-
         <div
           className="prose prose-lg dark:prose-dark max-w-none"
           dangerouslySetInnerHTML={{ __html: content }}
