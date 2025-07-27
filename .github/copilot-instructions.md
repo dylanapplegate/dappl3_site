@@ -121,7 +121,7 @@ demo: "https://demo-url.com" # Optional
 ### Adding Content (Auto-creates routes)
 
 ```bash
-# Creates /blog/new-post route automatically
+# Creates /blog/new-post route (after running `npm run build` – routes are generated during the SSG build phase)
 echo "---\ntitle: \"New Post\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\n---\n\nContent here..." > content/blog/new-post.md
 
 # Creates /projects/new-project route automatically
