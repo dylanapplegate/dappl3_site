@@ -191,7 +191,6 @@ PR to `main` triggers automatic:
 ```bash
 npm run build
 npm run lint
-npm run export
 npm run test:e2e:ci
 ```
 
