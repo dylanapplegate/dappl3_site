@@ -87,7 +87,7 @@ test.describe("Dark Mode Visual Tests", () => {
   test("should maintain dark mode styling on blog pages", async ({ page }) => {
     // Set dark mode preference
     await page.emulateMedia({ colorScheme: "dark" });
-    
+
     // Navigate to blog index
     await page.goto("/blog");
     await page.waitForTimeout(300);
@@ -108,7 +108,7 @@ test.describe("Dark Mode Visual Tests", () => {
   }) => {
     // Set dark mode preference
     await page.emulateMedia({ colorScheme: "dark" });
-    
+
     // Navigate to projects index
     await page.goto("/projects");
     await page.waitForTimeout(300);
