@@ -11,7 +11,10 @@ updates:
         update-types:
           - "minor"
           - "patch"
-        # Optionally exclude specific production dependencies known to break builds
+        # Optionally exclude specific production dependencies known to break builds.
+        # A dependency might be considered problematic if it has known bugs, introduces breaking changes,
+        # or is incompatible with the project's current setup. Use testing, issue tracking, or community reports
+        # to identify such dependencies.
         # exclude-patterns:
         #   - "problematic-lib"
 
@@ -34,3 +37,4 @@ updates:
           - "react-dom"
         update-types:
           - "major"
+        dependency-type: "production"
