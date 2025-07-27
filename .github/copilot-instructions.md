@@ -9,42 +9,32 @@ This is a **static-first Next.js blog** using Pages Router + SSG, designed for d
 - **Presentation Layer**: React components in `/components/` + pages in `/pages/`
 - **Build Output**: Static files via `output: "export"` in `next.config.mjs`
 
-## MCP Servers and Usage
+## Critical Static Export Requirements
 
-The following MCP servers are available for integration and usage within the project:
+⚠️ **BREAKING CONSTRAINTS** - These will break the build if violated:
 
-- **GitHub**: Use for version control and repository management.
-- **DeepWiki**: Use for storing and retrieving contextual information related to the project.
-- **Sequential Thinking**: Use for breaking down complex tasks into smaller, manageable steps.
-- **Memory**: Use for storing and retrieving contextual information during development.
-- **Playwright**: Use for end-to-end testing workflows, including link checking and page crawling.
-- **Context7**: Use for accessing up-to-date, version-specific documentation and resources.
+- `fallback: false` in `getStaticPaths()` - **REQUIRED** for static export
+- `output: "export"` in `next.config.mjs` - enables static file generation
+- `images: { unoptimized: true }` - Next.js image optimization incompatible with static export
+- No API routes - unsupported by static export
+- No server-side features (middleware, ISR, rewrites, redirects)
 
-### When to Use MCP Servers
+## Content Processing Pipeline
 
-- **GitHub**: Always use for managing code changes and collaborating with team members.
-- **DeepWiki**: Use when detailed contextual documentation is required for specific components or workflows.
-- **Sequential Thinking**: Use when planning or debugging complex features or workflows.
-- **Memory**: Use for recalling previous decisions or configurations during development.
-- **Playwright**: Use during testing phases to ensure all pages are functional and links are valid.
-- **Context7**: Use when referencing documentation or resolving version-specific issues.
-
-## Critical Content Processing Pipeline
-
-The `/lib/markdown.js` file is the content engine - all content flows through these functions:
+**CRITICAL**: All content flows through `/lib/markdown.js` functions:
 
 ```javascript
-getAllSlugs(contentType) → getStaticPaths()        // Discovers .md files
-getContentBySlug(contentType, slug) → getStaticProps() // Parses individual files
-getAllContent(contentType) → index pages           // Gets sorted content lists
-getStaticContent(filename) → static pages          // For about.md etc.
+getAllSlugs(contentType) → getStaticPaths()        // Discovers .md files in /content/{contentType}/
+getContentBySlug(contentType, slug) → getStaticProps() // Parses individual files with frontmatter
+getAllContent(contentType) → index pages           // Gets sorted content lists (newest first)
+getStaticContent(filename) → static pages          // For /content/about.md etc.
 ```
 
-**Key insight**: Content is processed with `remark` → `remarkRehype` → `rehypeHighlight` → `rehypeStringify` for syntax highlighting.
+**Processing chain**: markdown → gray-matter (frontmatter) → remark → remarkRehype → rehypeHighlight → rehypeStringify
 
 ## SSG Implementation Pattern
 
-**Every dynamic route** must use this exact pattern:
+**Every dynamic route** must follow this EXACT pattern (critical for static export):
 
 ```javascript
 // pages/blog/[slug].js & pages/projects/[slug].js
@@ -64,22 +54,22 @@ export async function getStaticProps({ params }) {
 
 ## Content Schema Requirements
 
-**All content** requires these frontmatter fields:
+**All content** requires frontmatter with these fields:
 
 ```yaml
 ---
 title: "String"
-date: "YYYY-MM-DD"
-excerpt: "String"
+date: "YYYY-MM-DD"  # Used for sorting (newest first)
+excerpt: "String"   # Used for SEO meta descriptions
 ---
 ```
 
 **Projects** additionally require:
 
 ```yaml
-tags: ["Array", "Of", "Strings"]
-github: "https://github.com/..." # Optional
-demo: "https://demo-url.com" # Optional
+tags: ["Array", "Of", "Strings"]  # For filtering/display
+github: "https://github.com/..."  # Optional
+demo: "https://demo-url.com"      # Optional
 ```
 
 ## Styling System (Tailwind CSS)
@@ -128,29 +118,39 @@ demo: "https://demo-url.com" # Optional
 
 ## Development Workflows
 
-### Adding Content
+### Adding Content (Auto-creates routes)
 
 ```bash
 # Creates /blog/new-post route automatically
 echo "---\ntitle: \"New Post\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\n---\n\nContent here..." > content/blog/new-post.md
 
-# Creates /projects/new-project route automatically
+# Creates /projects/new-project route automatically  
 echo "---\ntitle: \"New Project\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\ntags: [\"React\"]\n---\n\nContent here..." > content/projects/new-project.md
 ```
 
-### Build & Test
+### Build & Test Pipeline
 
 ```bash
 npm run dev --turbopack        # Development with Turbopack
-npm run build                  # Static export to /out
-npm run test:e2e              # Playwright link checker
+npm run build                  # Static export to /out (required for testing)
+npm run test:e2e              # Playwright comprehensive link checker
+npm run test:e2e:ui           # Interactive test debugging
+npm run test:e2e:github       # CI-optimized (used in GitHub Actions)
+npm run lint                  # ESLint validation
 ```
 
-**Testing**: Includes comprehensive Playwright E2E tests that crawl all pages and check for broken links.
+**Critical**: E2E tests require `npm run build` first - they test the static `/out` directory served via http-server on port 3001.
 
-## Component Architecture
+### GitHub Actions Integration
 
-**Layout Pattern**: All pages wrap content in `Layout` component:
+PR to `main` triggers automatic:
+1. **Lint check** - ESLint validation on all code
+2. **E2E tests** - Comprehensive site crawl checking for broken links across all browsers (Chromium, Firefox, WebKit)
+3. **Artifact upload** - Test reports saved for 30 days for debugging
+
+## Component Architecture & SEO
+
+**Layout Pattern**: All pages wrap content in `Layout` component with automatic SEO:
 
 ```jsx
 <Layout title="Page Title" description="SEO description" type="article">
@@ -158,28 +158,35 @@ npm run test:e2e              # Playwright link checker
 </Layout>
 ```
 
-**SEO**: Layout automatically handles meta tags, Open Graph, and JSON-LD structured data for blog posts.
+**SEO Features**: Layout automatically handles:
+- Meta tags (title, description, viewport)
+- Open Graph (og:title, og:description, og:type)
+- Twitter Cards (summary_large_image)
+- JSON-LD structured data for articles (in blog posts)
 
-## Static Export Constraints
-
-- **No API routes** (unsupported by static export)
-- **No `next/image` optimization** (`unoptimized: true` required)
-- **No server-side features** (middleware, ISR, etc.)
-- **Markdown-only content** (no CMS dependencies)
-
-## Key Files to Understand
-
-- `/lib/markdown.js` - Content processing engine
-- `/pages/blog/[slug].js` - Dynamic route template
-- `/components/Layout.js` - SEO and theme wrapper
-- `/styles/globals.css` - Theme system and typography
-- `/next.config.mjs` - Static export configuration
+**Typography System**:
+- Body text: `Inter` font via CSS `font-family`
+- Headings: `Syne` font via CSS h1-h6 selectors  
+- Content rendering: `@tailwindcss/typography` prose classes
+- Code highlighting: `rehype-highlight` with syntax highlighting
 
 ## Verification Requirements
 
-**Always test locally before deployment:**
+**Always verify before deployment:**
 
-1. Run `npm run build` and verify `/out` directory
-2. Test new content routes work correctly
-3. Run `npm run test:e2e` to check for broken links
-4. Verify dark/light theme switching works
+1. `npm run build` - Check `/out` directory generates correctly
+2. `npm run test:e2e` - Verify all links work and pages render
+3. Test dark/light theme switching works
+4. Verify new content appears in index pages (sorted by date, newest first)
+5. Check that new routes are accessible via file-based routing
+
+## Key Files & Their Roles
+
+- `/lib/markdown.js` - Content processing engine (all content flows through here)
+- `/pages/blog/[slug].js` - Dynamic route template for blog posts
+- `/pages/projects/[slug].js` - Dynamic route template for projects  
+- `/components/Layout.js` - SEO wrapper + theme provider
+- `/styles/globals.css` - Theme system with CSS custom properties
+- `/next.config.mjs` - Static export configuration (critical for deployment)
+- `/playwright.config.ts` - E2E test configuration (builds site before testing)
+- `/.github/workflows/pr-checks.yml` - CI/CD pipeline for PRs
