@@ -59,17 +59,17 @@ export async function getStaticProps({ params }) {
 ```yaml
 ---
 title: "String"
-date: "YYYY-MM-DD"  # Used for sorting (newest first)
-excerpt: "String"   # Used for SEO meta descriptions
+date: "YYYY-MM-DD" # Used for sorting (newest first)
+excerpt: "String" # Used for SEO meta descriptions
 ---
 ```
 
 **Projects** additionally require:
 
 ```yaml
-tags: ["Array", "Of", "Strings"]  # For filtering/display
-github: "https://github.com/..."  # Optional
-demo: "https://demo-url.com"      # Optional
+tags: ["Array", "Of", "Strings"] # For filtering/display
+github: "https://github.com/..." # Optional
+demo: "https://demo-url.com" # Optional
 ```
 
 ## Styling System (Tailwind CSS)
@@ -124,7 +124,7 @@ demo: "https://demo-url.com"      # Optional
 # Creates /blog/new-post route automatically
 echo "---\ntitle: \"New Post\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\n---\n\nContent here..." > content/blog/new-post.md
 
-# Creates /projects/new-project route automatically  
+# Creates /projects/new-project route automatically
 echo "---\ntitle: \"New Project\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\ntags: [\"React\"]\n---\n\nContent here..." > content/projects/new-project.md
 ```
 
@@ -144,6 +144,7 @@ npm run lint                  # ESLint validation
 ### GitHub Actions Integration
 
 PR to `main` triggers automatic:
+
 1. **Lint check** - ESLint validation on all code
 2. **E2E tests** - Comprehensive site crawl checking for broken links across all browsers (Chromium, Firefox, WebKit)
 3. **Artifact upload** - Test reports saved for 30 days for debugging
@@ -159,14 +160,16 @@ PR to `main` triggers automatic:
 ```
 
 **SEO Features**: Layout automatically handles:
+
 - Meta tags (title, description, viewport)
 - Open Graph (og:title, og:description, og:type)
 - Twitter Cards (summary_large_image)
 - JSON-LD structured data for articles (in blog posts)
 
 **Typography System**:
+
 - Body text: `Inter` font via CSS `font-family`
-- Headings: `Syne` font via CSS h1-h6 selectors  
+- Headings: `Syne` font via CSS h1-h6 selectors
 - Content rendering: `@tailwindcss/typography` prose classes
 - Code highlighting: `rehype-highlight` with syntax highlighting
 
@@ -184,7 +187,7 @@ PR to `main` triggers automatic:
 
 - `/lib/markdown.js` - Content processing engine (all content flows through here)
 - `/pages/blog/[slug].js` - Dynamic route template for blog posts
-- `/pages/projects/[slug].js` - Dynamic route template for projects  
+- `/pages/projects/[slug].js` - Dynamic route template for projects
 - `/components/Layout.js` - SEO wrapper + theme provider
 - `/styles/globals.css` - Theme system with CSS custom properties
 - `/next.config.mjs` - Static export configuration (critical for deployment)
