@@ -184,6 +184,19 @@ PR to `main` triggers automatic:
 4. Verify new content appears in index pages (sorted by date, newest first)
 5. Check that new routes are accessible via file-based routing
 
+## Final Verification Commands (Agent Requirement)
+
+**Before considering any task complete, the agent must run the following commands to ensure the project works correctly:**
+
+```bash
+npm run build
+npm run lint
+npm run export
+npm run test:e2e:ci
+```
+
+Only after all commands succeed should the agent consider the task done.
+
 ## Key Files & Their Roles
 
 - `/lib/markdown.js` - Content processing engine (all content flows through here)

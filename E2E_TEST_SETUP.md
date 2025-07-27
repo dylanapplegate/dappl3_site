@@ -182,6 +182,7 @@ All modes are fully compatible with CI/CD pipelines:
 The test suite has been verified to:
 
 **Link Checker:**
+
 - ✅ Pass when all links are working correctly
 - ✅ Fail and report specific broken links when issues exist
 - ✅ Handle all page types (blog posts, projects, static pages)
@@ -189,6 +190,7 @@ The test suite has been verified to:
 - ✅ Provide clear, actionable error messages
 
 **Dark Mode Tests:**
+
 - ✅ Properly test system `prefers-color-scheme` detection
 - ✅ Generate visual regression screenshots for both themes
 - ✅ Verify theme consistency across all pages
