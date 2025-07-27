@@ -93,6 +93,7 @@ demo: "https://demo-url.com" # Optional
 
 - All UI components must include Tailwind's `dark:` variant styles for backgrounds, text, borders, and interactive states.
 - Components should be tested in both light and dark themes before PR approval.
+- Dark mode is controlled by the user's browser `prefers-color-scheme` setting - no manual toggle is provided.
 - Any new component or layout must default to theme-aware color tokens and utility classes.
 - Interactive states (hover, focus, active) must be styled for both light and dark modes.
 - Do not use custom CSS unless absolutely necessary; prefer Tailwind utilities.
