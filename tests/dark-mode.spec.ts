@@ -2,17 +2,17 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Dark Mode Visual Tests", () => {
   test.beforeEach(async ({ page }) => {
-    // Go to the homepage
+    // Go to the homepage with default theme preference
     await page.goto("/");
   });
 
   test("should display all components correctly in light mode", async ({
     page,
   }) => {
-    // Ensure we're in light mode
-    await page.evaluate(() => {
-      document.documentElement.classList.remove("dark");
-    });
+    // Set light mode preference
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.reload();
+    await page.waitForTimeout(300);
 
     // Check that key elements are visible and styled correctly
     await expect(page.locator("h1")).toContainText("Welcome to My");
@@ -35,12 +35,9 @@ test.describe("Dark Mode Visual Tests", () => {
   test("should display all components correctly in dark mode", async ({
     page,
   }) => {
-    // Switch to dark mode
-    await page.evaluate(() => {
-      document.documentElement.classList.add("dark");
-    });
-
-    // Wait for dark mode transition
+    // Set dark mode preference
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.reload();
     await page.waitForTimeout(300);
 
     // Check that key elements are visible and styled correctly
@@ -61,35 +58,38 @@ test.describe("Dark Mode Visual Tests", () => {
     });
   });
 
-  test("should toggle between light and dark modes", async ({ page }) => {
-    // Find the theme toggle button by aria-label
-    const themeToggle = page.getByLabel("Toggle theme");
+  test("should respect prefers-color-scheme setting", async ({ page }) => {
+    // Test light mode preference
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.reload();
+    await page.waitForTimeout(300);
 
-    // Check initial state (should be light mode by default)
+    // Verify we're in light mode
     await expect(page.locator("html")).not.toHaveClass("dark");
 
-    // Click theme toggle to switch to dark mode
-    await themeToggle.click();
-    await page.waitForTimeout(300); // Wait for transition
+    // Test dark mode preference
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.reload();
+    await page.waitForTimeout(300);
 
     // Verify we're now in dark mode
     await expect(page.locator("html")).toHaveClass("dark");
 
-    // Click again to switch back to light mode
-    await themeToggle.click();
+    // Reset to no preference
+    await page.emulateMedia({ colorScheme: "no-preference" });
+    await page.reload();
     await page.waitForTimeout(300);
 
-    // Verify we're back in light mode
+    // Should default to light mode when no preference
     await expect(page.locator("html")).not.toHaveClass("dark");
   });
 
   test("should maintain dark mode styling on blog pages", async ({ page }) => {
-    // Navigate to blog index first
+    // Set dark mode preference
+    await page.emulateMedia({ colorScheme: "dark" });
+    
+    // Navigate to blog index
     await page.goto("/blog");
-
-    // Switch to dark mode using the theme toggle
-    const themeToggle = page.getByLabel("Toggle theme");
-    await themeToggle.click();
     await page.waitForTimeout(300);
 
     // Check dark mode styling is maintained
@@ -106,12 +106,11 @@ test.describe("Dark Mode Visual Tests", () => {
   test("should maintain dark mode styling on project pages", async ({
     page,
   }) => {
-    // Navigate to projects index first
+    // Set dark mode preference
+    await page.emulateMedia({ colorScheme: "dark" });
+    
+    // Navigate to projects index
     await page.goto("/projects");
-
-    // Switch to dark mode using the theme toggle
-    const themeToggle = page.getByLabel("Toggle theme");
-    await themeToggle.click();
     await page.waitForTimeout(300);
 
     // Check dark mode styling is maintained
@@ -127,9 +126,9 @@ test.describe("Dark Mode Visual Tests", () => {
 
   test("should have proper contrast in both themes", async ({ page }) => {
     // Test light mode contrast
-    await page.evaluate(() => {
-      document.documentElement.classList.remove("dark");
-    });
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.reload();
+    await page.waitForTimeout(300);
 
     const lightHeading = await page.locator("h1").first();
     const lightHeadingColor = await lightHeading.evaluate(
@@ -137,9 +136,8 @@ test.describe("Dark Mode Visual Tests", () => {
     );
 
     // Switch to dark mode
-    await page.evaluate(() => {
-      document.documentElement.classList.add("dark");
-    });
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.reload();
     await page.waitForTimeout(300);
 
     const darkHeading = await page.locator("h1").first();

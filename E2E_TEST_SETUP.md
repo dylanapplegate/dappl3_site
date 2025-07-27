@@ -1,8 +1,8 @@
-# Playwright E2E Link Checker Setup
+# Playwright E2E Test Setup
 
 ## Overview
 
-This document outlines the comprehensive Playwright E2E testing setup that has been added to your Next.js static blog project. The primary purpose is to automatically crawl the built static site and verify that all internal links are working correctly.
+This document outlines the comprehensive Playwright E2E testing setup for the Next.js static blog project. The test suite includes automated link checking, dark mode visual testing, and site integrity verification.
 
 ## What Was Implemented
 
@@ -13,7 +13,9 @@ This document outlines the comprehensive Playwright E2E testing setup that has b
 - **Static File Serving**: Uses `http-server` to serve the `/out` directory on port 3001
 - **CI/CD Ready**: Optimized settings for both local development and CI environments
 
-### 2. Comprehensive Link Checker (`tests/link-checker.spec.ts`)
+### 2. Test Suites
+
+#### Link Checker (`tests/link-checker.spec.ts`)
 
 - **Intelligent Crawling**: Starts from the homepage and discovers all internal pages
 - **Link Validation**: Tests every internal link for 404 errors and other failures
@@ -23,6 +25,14 @@ This document outlines the comprehensive Playwright E2E testing setup that has b
   - Full site crawl with link validation
   - Homepage load verification
   - Critical path accessibility testing
+
+#### Dark Mode Tests (`tests/dark-mode.spec.ts`)
+
+- **System Theme Detection**: Tests `prefers-color-scheme` integration
+- **Visual Regression**: Screenshots for both light and dark modes
+- **Component Verification**: Ensures all UI components render correctly in both themes
+- **Cross-Page Testing**: Validates theme consistency across all pages
+- **Contrast Testing**: Verifies proper color contrast between themes
 
 ### 3. Package Scripts
 
@@ -81,11 +91,19 @@ retries: process.env.CI ? 2 : 0;
 - Prevents infinite loops by tracking visited URLs
 - Handles relative and absolute internal URLs correctly
 
+### Dark Mode Testing
+
+- **System Preference Testing**: Uses `page.emulateMedia({ colorScheme: 'dark'|'light' })` to test browser preferences
+- **Visual Regression**: Captures screenshots in both light and dark modes for comparison
+- **Theme Persistence**: Verifies theme consistency across page navigation
+- **Automatic Detection**: Tests that the site properly responds to system theme changes
+
 ### Comprehensive Validation
 
 - Tests HTTP status codes (expects 2xx responses)
 - Validates page rendering in actual browsers
 - Checks critical application routes (`/`, `/about`, `/blog`, `/projects`)
+- Verifies color contrast between light and dark themes
 
 ### Detailed Error Reporting
 
@@ -161,13 +179,21 @@ All modes are fully compatible with CI/CD pipelines:
 
 ## Verification
 
-The link checker has been tested and verified to:
+The test suite has been verified to:
 
+**Link Checker:**
 - ✅ Pass when all links are working correctly
 - ✅ Fail and report specific broken links when issues exist
 - ✅ Handle all page types (blog posts, projects, static pages)
 - ✅ Work across multiple browsers (Chromium, Firefox, WebKit)
 - ✅ Provide clear, actionable error messages
+
+**Dark Mode Tests:**
+- ✅ Properly test system `prefers-color-scheme` detection
+- ✅ Generate visual regression screenshots for both themes
+- ✅ Verify theme consistency across all pages
+- ✅ Confirm proper color contrast ratios
+- ✅ Work with automatic theme switching (no manual toggle required)
 
 ## Maintenance
 
@@ -176,4 +202,4 @@ The link checker has been tested and verified to:
 - Easy to extend for additional test scenarios
 - Configuration can be customized in `playwright.config.ts`
 
-This E2E testing setup ensures your static blog maintains high quality and all links remain functional as content is added or modified.
+This E2E testing setup ensures your static blog maintains high quality, all links remain functional, and dark mode works correctly with system preferences as content is added or modified.

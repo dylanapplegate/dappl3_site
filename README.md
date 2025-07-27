@@ -5,7 +5,7 @@ This is a starter kit for building a fast, modern, and content-focused personal 
 ## 🚀 Features
 
 - **⚡ Fast Performance** - Static site generation for lightning-fast loading
-- **🌙 Dark Mode** - Beautiful dark/light theme switching with next-themes
+- **🌙 Dark Mode** - Automatic dark/light theme based on system preferences
 - **📱 Responsive** - Mobile-first design that looks great on all devices
 - **🔍 SEO Optimized** - Built-in SEO with meta tags and structured data
 - **📝 Markdown Content** - Write posts and projects in Markdown
@@ -17,7 +17,7 @@ This is a starter kit for building a fast, modern, and content-focused personal 
 - **Framework**: Next.js (Static Site Generation)
 - **Styling**: Tailwind CSS
 - **Content**: Markdown with gray-matter
-- **Theming**: next-themes for dark/light mode
+- **Theming**: next-themes for automatic system theme detection
 - **SEO**: next-seo for meta tags and Open Graph
 - **Typography**: Inter + Lora font pairing
 
