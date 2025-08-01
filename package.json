@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "build:tokens": "node scripts/build-tokens.js",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:debug": "playwright test --debug",
@@ -36,6 +37,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.4.4",
     "http-server": "^14.1.1",
+    "style-dictionary": "^5.0.1",
     "tailwindcss": "^4"
   }
 }
