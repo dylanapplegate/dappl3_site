@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const colors = require("./tailwind_figma_tokens.json").global.color;
+import tokens from "./tokens.json";
 
 export default {
   darkMode: "class",
@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        ...colors,
+        ...tokens.global.colors,
       },
     },
   },
