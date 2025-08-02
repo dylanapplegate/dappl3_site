@@ -2,7 +2,7 @@
   "source": ["tokens.json"],
   "platforms": {
     "figma": {
-      "transformGroup": "js",
+      "transformGroup": "web",
       "buildPath": "./",
       "files": [
         {
