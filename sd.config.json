@@ -13,51 +13,6 @@
           }
         }
       ]
-    },
-    "css": {
-      "transformGroup": "css",
-      "buildPath": "./build/",
-      "files": [
-        {
-          "destination": "tokens.css",
-          "format": "css/variables",
-          "options": {
-            "showFileHeader": true,
-            "outputReferences": true
-          }
-        }
-      ]
-    },
-    "scss": {
-      "transformGroup": "scss",
-      "buildPath": "./build/",
-      "files": [
-        {
-          "destination": "tokens.scss",
-          "format": "scss/variables",
-          "options": {
-            "showFileHeader": true,
-            "outputReferences": true
-          }
-        }
-      ]
-    },
-    "js": {
-      "transformGroup": "js",
-      "buildPath": "./build/",
-      "files": [
-        {
-          "destination": "tokens.js",
-          "format": "javascript/es6",
-          "options": {
-            "showFileHeader": true
-          }
-        },
-        {
-          "destination": "tokens.figma.json",
-          "format": "json/flat"
-        }
-      ]
     }
   }
 }
