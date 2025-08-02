@@ -10,7 +10,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Custom colors moved from tokens.json for consistency
         "warm-gray": {
           50: "#eae6e0",
           100: "#e1ddd7",
