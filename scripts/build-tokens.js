@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
 /**
- * Build script to generate tokens.json from Tailwind config
- * This script extracts design tokens from tailwind.config.js and converts them
- * to a Style Dictionary compatible format for use with Figma Tokens Studio
+ * Build script for design tokens using Style Dictionary
+ * This script extracts tokens from Tailwind config, generates tokens.json,
+ * and uses Style Dictionary to transform them for various platforms
  */
 
-import { createRequire } from "module";
+import StyleDictionary from "style-dictionary";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -70,6 +70,7 @@ function convertToTokenFormat(value, key) {
     return {
       value: value[0],
       lineHeight: value[1].lineHeight || value[1],
+      type: "fontSize",
     };
   }
 
@@ -77,6 +78,15 @@ function convertToTokenFormat(value, key) {
   if (key.includes("fontFamily") && Array.isArray(value)) {
     return {
       value: value.join(", "),
+      type: "fontFamily",
+    };
+  }
+
+  // Handle spacing values
+  if (key.includes("spacing")) {
+    return {
+      value: value,
+      type: "spacing",
     };
   }
 
@@ -112,36 +122,159 @@ function convertThemeToTokens(obj, parentKey = "") {
   return result;
 }
 
+// Generate tokens.json from Tailwind config
+async function generateTokensFile() {
+  console.log("🚀 Extracting tokens from Tailwind config...");
+
+  // Load only custom tokens from theme.extend
+  const extendedTheme = await loadExtendedTailwindTheme();
+
+  // Convert theme to tokens format
+  const tokens = {
+    $themes: [
+      {
+        id: "light",
+        name: "Light Theme",
+        selectedTokenSets: {
+          global: "enabled",
+        },
+        $figmaStyleReferences: {},
+      },
+    ],
+    global: convertThemeToTokens(extendedTheme),
+  };
+
+  // Write the tokens file
+  const outputPath = path.resolve(__dirname, "../tokens.json");
+  fs.writeFileSync(outputPath, JSON.stringify(tokens, null, 2));
+
+  console.log("✅ tokens.json generated successfully");
+  console.log(
+    `🎨 Generated tokens for: ${Object.keys(extendedTheme).join(", ")}`,
+  );
+
+  return { extendedTheme, outputPath };
+}
+
+// Build tokens using Style Dictionary
+async function buildWithStyleDictionary() {
+  console.log("🔄 Building tokens with Style Dictionary...");
+
+  try {
+    // Initialize Style Dictionary with enhanced configuration
+    const sd = new StyleDictionary({
+      source: ["tokens.json"],
+      platforms: {
+        // Generate flattened tokens for Figma
+        figma: {
+          transformGroup: "js",
+          buildPath: "./",
+          files: [
+            {
+              destination: "tokens.figma.json",
+              format: "json/flat",
+              options: {
+                showFileHeader: true,
+              },
+            },
+          ],
+        },
+        // Generate CSS custom properties for web use
+        css: {
+          transformGroup: "css",
+          buildPath: "./build/",
+          files: [
+            {
+              destination: "tokens.css",
+              format: "css/variables",
+              options: {
+                showFileHeader: true,
+                outputReferences: true,
+              },
+            },
+          ],
+        },
+        // Generate JavaScript/JSON for programmatic use
+        js: {
+          transformGroup: "js",
+          buildPath: "./build/",
+          files: [
+            {
+              destination: "tokens.js",
+              format: "javascript/es6",
+              options: {
+                showFileHeader: true,
+              },
+            },
+            {
+              destination: "tokens.json",
+              format: "json/nested",
+              options: {
+                showFileHeader: false,
+              },
+            },
+          ],
+        },
+        // Generate SCSS variables for Sass/SCSS projects
+        scss: {
+          transformGroup: "scss",
+          buildPath: "./build/",
+          files: [
+            {
+              destination: "tokens.scss",
+              format: "scss/variables",
+              options: {
+                showFileHeader: true,
+                outputReferences: true,
+              },
+            },
+          ],
+        },
+        // Generate TypeScript declarations for type safety
+        ts: {
+          transformGroup: "js",
+          buildPath: "./build/",
+          files: [
+            {
+              destination: "tokens.d.ts",
+              format: "typescript/es6-declarations",
+              options: {
+                showFileHeader: true,
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    // Build all platforms
+    await sd.buildAllPlatforms();
+
+    console.log("✅ Style Dictionary build completed successfully");
+    console.log("📁 Generated files:");
+    console.log("   • tokens.figma.json (for Figma Tokens Studio)");
+    console.log("   • build/tokens.css (CSS custom properties)");
+    console.log("   • build/tokens.scss (SCSS variables)");
+    console.log("   • build/tokens.js (JavaScript/ES6 module)");
+    console.log("   • build/tokens.d.ts (TypeScript declarations)");
+    console.log("   • build/tokens.json (nested JSON structure)");
+  } catch (error) {
+    console.error("❌ Style Dictionary build failed:", error);
+    throw error;
+  }
+}
+
 async function buildTokens() {
   try {
-    console.log("🚀 Building tokens from Tailwind config...");
+    // Step 1: Generate tokens.json from Tailwind config
+    const { extendedTheme } = await generateTokensFile();
 
-    // Load only custom tokens from theme.extend
-    const extendedTheme = await loadExtendedTailwindTheme();
+    // Step 2: Transform tokens using Style Dictionary
+    await buildWithStyleDictionary();
 
-    // Convert theme to tokens format
-    const tokens = {
-      $themes: [
-        {
-          id: "light",
-          name: "Light Theme",
-          selectedTokenSets: {
-            global: "enabled",
-          },
-          $figmaStyleReferences: {},
-        },
-      ],
-      global: convertThemeToTokens(extendedTheme),
-    };
+    // Summary
+    console.log("\n🎉 Token build process completed!");
 
-    // Write the tokens file
-    const outputPath = path.resolve(__dirname, "../tokens.json");
-    fs.writeFileSync(outputPath, JSON.stringify(tokens, null, 2));
-
-    console.log("✅ Tokens successfully generated at:", outputPath);
-    console.log(
-      `🎨 Generated tokens for: ${Object.keys(extendedTheme).join(", ")}`,
-    );
     if (extendedTheme.colors) {
       console.log(
         `📊 Color variants: ${Object.keys(extendedTheme.colors).length}`,
