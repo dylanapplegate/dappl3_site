@@ -6,7 +6,7 @@
       "buildPath": "./",
       "files": [
         {
-          "destination": "tokens.json",
+          "destination": "tokens.figma.json",
           "format": "json/flat"
         }
       ]
