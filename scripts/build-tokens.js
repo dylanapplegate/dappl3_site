@@ -13,7 +13,6 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const require = createRequire(import.meta.url);
 
 // Load only the extended theme from Tailwind config
 async function loadExtendedTailwindTheme() {
@@ -31,6 +30,37 @@ async function loadExtendedTailwindTheme() {
     console.error("Error loading Tailwind config:", error);
     throw error;
   }
+}
+
+// Check if a value is a color
+function isColor(value) {
+  if (typeof value !== "string") return false;
+
+  // Check for hex colors (#000, #000000)
+  if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(value)) return true;
+
+  // Check for rgb/rgba
+  if (/^rgba?\(/i.test(value)) return true;
+
+  // Check for hsl/hsla
+  if (/^hsla?\(/i.test(value)) return true;
+
+  // Check for named CSS colors (common ones)
+  const namedColors = [
+    "transparent",
+    "currentColor",
+    "inherit",
+    "initial",
+    "unset",
+    "white",
+    "black",
+    "red",
+    "green",
+    "blue",
+  ];
+  if (namedColors.includes(value.toLowerCase())) return true;
+
+  return false;
 }
 
 // Convert values to Style Dictionary format, handling different value types
@@ -51,9 +81,16 @@ function convertToTokenFormat(value, key) {
   }
 
   // Handle regular values
-  return {
+  const token = {
     value: value,
   };
+
+  // Add type for colors
+  if (isColor(value) || key.includes("colors") || key.includes("color")) {
+    token.type = "color";
+  }
+
+  return token;
 }
 
 // Convert Tailwind theme object to tokens format recursively
