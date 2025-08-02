@@ -19,6 +19,10 @@ This is a **static-first Next.js blog** using Pages Router + SSG, designed for d
 - No API routes - unsupported by static export
 - No server-side features (middleware, ISR, rewrites, redirects)
 
+## Thinking steps
+
+- Always use Context7 MCP to get latest version of package documentation before making changes.
+
 ## Content Processing Pipeline
 
 **CRITICAL**: All content flows through `/lib/markdown.js` functions:
