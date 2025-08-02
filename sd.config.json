@@ -7,7 +7,7 @@
       "files": [
         {
           "destination": "tokens.figma.json",
-          "format": "json/flat",
+          "format": "json",
           "options": {
             "showFileHeader": true
           }
