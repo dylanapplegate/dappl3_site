@@ -31,12 +31,12 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@playwright/test": "^1.54.1",
+    "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
-    "eslint-config-next": "15.4.4",
+    "eslint-config-next": "15.5.0",
     "http-server": "^14.1.1",
-    "style-dictionary": "^5.0.1",
+    "style-dictionary": "^5.0.2",
     "tailwindcss": "^4"
   }
 }
