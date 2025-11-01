@@ -1,4 +1,4 @@
-# Copilot Instructions for Next.js Static Blog & Portfolio
+# Gemini Instructions for Next.js Static Blog & Portfolio
 
 ## Architecture Overview
 
@@ -88,7 +88,7 @@ demo: "https://demo-url.com" # Optional
 **Typography hierarchy**:
 
 - Body text: `Inter` (via CSS `font-family`)
-- Headings: `Syne` (via CSS h1-h6 selectors)
+- Headings: `Syne` (via CSS h1-6 selectors)
 - Content: `@tailwindcss/typography` for markdown rendering
 
 **Theme system**: Uses `next-themes` with `darkMode: "class"` and CSS custom properties for consistent theming.
@@ -127,9 +127,11 @@ demo: "https://demo-url.com" # Optional
 
 ```bash
 # Creates /blog/new-post route (after running `npm run build` – routes are generated during the SSG build phase)
+
 echo "---\ntitle: \"New Post\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\n---\n\nContent here..." > content/blog/new-post.md
 
 # Creates /projects/new-project route automatically
+
 echo "---\ntitle: \"New Project\"\ndate: \"$(date +%Y-%m-%d)\"\nexcerpt: \"Description\"\ntags: [\"React\"]\n---\n\nContent here..." > content/projects/new-project.md
 ```
 
@@ -174,7 +176,7 @@ PR to `main` triggers automatic:
 **Typography System**:
 
 - Body text: `Inter` font via CSS `font-family`
-- Headings: `Syne` font via CSS h1-h6 selectors
+- Headings: `Syne` font via CSS h1-6 selectors
 - Content rendering: `@tailwindcss/typography` prose classes
 - Code highlighting: `rehype-highlight` with syntax highlighting
 
